@@ -10,6 +10,13 @@ ami = commit[0..4]
 ---
 AWSTemplateFormatVersion: 2010-09-09
 Description: AWS CloudFormation Template for Code.org application
+Parameters:
+  InstanceType:
+    Type: String
+    Default: <%=INSTANCE_TYPE%>
+  Branch:
+    Type: String
+    Default: <%=branch%>
 Resources:
   # Signal when the instance is fully provisioned and ready for AMI creation.
   AMICreate<%=ami%>:
@@ -23,7 +30,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: <%=IMAGE_ID%>
-      InstanceType: <%=INSTANCE_TYPE%>
+      InstanceType: !Ref InstanceType
       IamInstanceProfile: !ImportValue IAM-FrontendInstanceProfile
       SecurityGroupIds: [!ImportValue VPC-FrontendSecurityGroup]
       SubnetId: !ImportValue VPC-Subnet<%=azs.first%>
