@@ -104,6 +104,7 @@ jq "." <<JSON > $FIRST_BOOT
 <% if stack_name == 'staging-next' -%>
     "assets_bucket_prefix": "adhoc",
 <% end -%>
+    "image_optim": false,
     "override_dashboard": "dashboard-<%=subdomain%>",
     "override_pegasus": "<%=subdomain%>"
   },
