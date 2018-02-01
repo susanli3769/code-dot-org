@@ -17,6 +17,7 @@ module CdoApps
       command "bundle exec rake #{app_name}:setup_db"
       cwd app_root
       environment env.merge(node['cdo-apps']['bundle_env'])
+      live_stream true
       user user
       group user
       action :nothing

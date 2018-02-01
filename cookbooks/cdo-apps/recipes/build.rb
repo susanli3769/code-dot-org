@@ -14,6 +14,7 @@ execute 'build-cdo' do
   command 'bundle exec rake build'
   cwd root
   environment env.merge(node['cdo-apps']['bundle_env'])
+  live_stream true
   user user
   group user
   action :nothing
