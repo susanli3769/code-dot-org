@@ -45,7 +45,7 @@ pip3 install -q awscli
 STACK=${AWS::StackName}
 CHEF_VERSION=12.7.2
 RUN_LIST='["recipe[cdo-apps]"]'
-BRANCH=<%=branch%>
+BRANCH=${Branch}
 SUBDOMAIN=<%=subdomain%>
 S3_BUCKET=<%=s3_bucket%>
 REGION=${AWS::Region}

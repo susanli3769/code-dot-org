@@ -35,6 +35,16 @@ iam_instance_profile = stack_name == 'staging-next' ? 'StagingInstanceProfile' :
 ---
 AWSTemplateFormatVersion: 2010-09-09
 Description: Standalone Code.org application on a single EC2 instance<%=cdn_enabled ? ' over CloudFront CDN' : ''%>.
+Parameters:
+  InstanceType:
+    Type: String
+    Default: <%=INSTANCE_TYPE%>
+  Branch:
+    Type: String
+    Default: <%=branch%>
+  ImageId:
+    Type: String
+    Default: <%=image_id%>
 Resources:
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -60,8 +70,8 @@ Resources:
       ResourceSignal:
         Timeout: PT2H
     Properties:
-      ImageId: <%=image_id%>
-      InstanceType: <%=INSTANCE_TYPE%>
+      ImageId: !Ref ImageId
+      InstanceType: !Ref InstanceType
       IamInstanceProfile: !ImportValue IAM-<%=iam_instance_profile%>
       KeyName: <%=SSH_KEY_NAME%>
       Tags: [{Key: Name, Value: <%=stack_name%>}]

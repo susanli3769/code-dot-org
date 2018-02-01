@@ -17,6 +17,9 @@ Parameters:
   Branch:
     Type: String
     Default: <%=branch%>
+  ImageId:
+    Type: String
+    Default: <%=IMAGE_ID%>
 Resources:
   # Signal when the instance is fully provisioned and ready for AMI creation.
   AMICreate<%=ami%>:
@@ -29,7 +32,7 @@ Resources:
   WebServerAMI:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: <%=IMAGE_ID%>
+      ImageId: !Ref ImageId
       InstanceType: !Ref InstanceType
       IamInstanceProfile: !ImportValue IAM-FrontendInstanceProfile
       SecurityGroupIds: [!ImportValue VPC-FrontendSecurityGroup]
@@ -45,7 +48,8 @@ Resources:
           resource_id: "AMICreate#{ami}",
           node_name: 'ami-$INSTANCE_ID',
           run_list: [
-            local_mode ? 'recipe[cdo-apps]' : 'role[unmonitored-frontend]'
+            local_mode ? 'recipe[cdo-apps]' : 'role[unmonitored-frontend]',
+            'recipe[cdo-apps::stop]'
           ],
           commit: commit,
           shutdown: true,
