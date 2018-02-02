@@ -7,21 +7,6 @@ LOG=<%=log_name%>
 exec >> >(tee -i $LOG)
 exec 2>&1
 
-# Initialize EBS volume with fio utility.
-# Ref: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-initialize.html
-# Only run command if fio 3.x is already installed.
-command -v fio >/dev/null 2>&1 && \
-  fio --version | grep -q 'fio-3' && \
-  fio \
-    --filename=/dev/sda1 \
-    --rw=read \
-    --bs=128k \
-    --iodepth=32 \
-    --ioengine=libaio \
-    --direct=1 \
-    --name=volume-initialize \
-    &
-
 # Temp dir that cleans up after itself.
 MYTMPDIR=$(mktemp -d)
 trap 'rm -rf "$MYTMPDIR"' EXIT
